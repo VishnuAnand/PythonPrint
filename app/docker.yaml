@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  flask-cups-app:
+    build:
+      context: .
+    image: flask-cups-app
+    networks:
+      - mynetwork
+    ports:
+      - "5000:5000"
+    environment:
+      - CUPS_SERVER_IP=127.0.0.1  # Replace with the actual container name or IP
+    volumes:
+      - ./:/app
+
+  cups-container:
+    image: olbat/cupsd
+    networks:
+      - mynetwork
+    ports:
+      - "631:631"
+
+networks:
+  mynetwork:
+    driver: bridge
